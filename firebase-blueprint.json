@@ -1,0 +1,152 @@
+{
+  "entities": {
+    "Book": {
+      "title": "Book",
+      "description": "A listing of an old book for sale",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the book"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the book"
+        },
+        "author": {
+          "type": "string",
+          "description": "Author of the book"
+        },
+        "genre": {
+          "type": "string",
+          "description": "Genre of the book (e.g. Science, Literature)"
+        },
+        "bookType": {
+          "type": "string",
+          "description": "General category / type of the book"
+        },
+        "classLevel": {
+          "type": "string",
+          "description": "Academic grade class level if applicable"
+        },
+        "price": {
+          "type": "number",
+          "description": "Asking price in Taka"
+        },
+        "originalPrice": {
+          "type": "number",
+          "description": "Original price when bought new"
+        },
+        "discount": {
+          "type": "number",
+          "description": "Discount percent compared to original price"
+        },
+        "condition": {
+          "type": "string",
+          "description": "Physical state of the book"
+        },
+        "imageUri": {
+          "type": "string",
+          "description": "Base64 data URI or host link of the image preview"
+        },
+        "sellerName": {
+          "type": "string",
+          "description": "Name of the listing seller"
+        },
+        "sellerPhone": {
+          "type": "string",
+          "description": "Contact number of the seller"
+        },
+        "sellerLocation": {
+          "type": "string",
+          "description": "Location / division of the seller"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when this listing was created"
+        },
+        "isSold": {
+          "type": "boolean",
+          "description": "True if the book has been bought/sold"
+        },
+        "buyerName": {
+          "type": "string",
+          "description": "Name of the person who bought/claimed the book"
+        },
+        "buyerPhone": {
+          "type": "string",
+          "description": "Phone of the buyer"
+        },
+        "soldAt": {
+          "type": "string",
+          "description": "Timestamp when the book was bought/claimed"
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of the book"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "author",
+        "genre",
+        "bookType",
+        "classLevel",
+        "price",
+        "discount",
+        "condition",
+        "imageUri",
+        "sellerName",
+        "sellerPhone",
+        "sellerLocation",
+        "createdAt",
+        "isSold"
+      ]
+    },
+    "SupportMessage": {
+      "title": "SupportMessage",
+      "description": "A message submitted by a user for assistance",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the message"
+        },
+        "userName": {
+          "type": "string",
+          "description": "Name of the user sending the support message"
+        },
+        "userPhone": {
+          "type": "string",
+          "description": "Phone number of the user"
+        },
+        "message": {
+          "type": "string",
+          "description": "Content of the support help inquiry"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when this request was recorded"
+        },
+        "status": {
+          "type": "string",
+          "description": "Resolution status of the support request"
+        }
+      },
+      "required": ["id", "userName", "userPhone", "message", "createdAt", "status"]
+    }
+  },
+  "firestore": {
+    "/books/{bookId}": {
+      "schema": "Book",
+      "description": "Submissions and queries for books listed by users"
+    },
+    "/support_messages/{messageId}": {
+      "schema": "SupportMessage",
+      "description": "Feedback and support inquiries submitted by users"
+    }
+  }
+}

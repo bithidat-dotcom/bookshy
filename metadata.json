@@ -1,0 +1,6 @@
+{
+  "name": "Booksy-bd",
+  "description": "একটি আধুনিক পুরাতন বই কেনা-বেচার প্ল্যাটফর্ম যেখানে আপনি আপনার পুরাতন বই বিক্রি করতে পারেন, দাম মূল্যায়ন করতে পারেন এবং সরাসরি বই ডাউনলোড/যোগাযোগের মাধ্যমে কেনা-বেচা করতে পারেন।",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

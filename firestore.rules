@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global Safety Helpers
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    
+    function incoming() {
+      return request.resource.data;
+    }
+    
+    function existing() {
+      return resource.data;
+    }
+
+    // Validation for Books
+    function isValidBook(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.title is string && data.title.size() <= 500
+        && data.author is string && data.author.size() <= 500
+        && data.genre is string && data.genre.size() <= 200
+        && data.bookType is string && data.bookType.size() <= 200
+        && data.classLevel is string && data.classLevel.size() <= 200
+        && (data.price is number || data.price is int) && data.price >= 0
+        && (data.discount is number || data.discount is int) && data.discount >= 0 && data.discount <= 100
+        && data.condition is string && (data.condition == 'new' || data.condition == 'excellent' || data.condition == 'good' || data.condition == 'fair')
+        && data.imageUri is string && data.imageUri.size() <= 10485760 // up to 10MB base64 content
+        && data.sellerName is string && data.sellerName.size() <= 300
+        && data.sellerPhone is string && data.sellerPhone.size() <= 100
+        && data.sellerLocation is string && data.sellerLocation.size() <= 300
+        && data.isSold is bool;
+    }
+
+    // Validation for SupportMessage
+    function isValidSupport(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.userName is string && data.userName.size() <= 300
+        && data.userPhone is string && data.userPhone.size() <= 100
+        && data.message is string && data.message.size() <= 10000
+        && data.status is string && (data.status == 'pending' || data.status == 'resolved');
+    }
+
+    // Books Collection Rules
+    match /books/{bookId} {
+      allow read: if true; // Public access for browsing book deals
+      allow create: if isValidId(bookId) && isValidBook(incoming());
+      allow update: if isValidId(bookId) && isValidBook(incoming()) && incoming().id == existing().id;
+      allow delete: if false; // Protect listing history integrity
+    }
+
+    // Support Messages Rules
+    match /support_messages/{messageId} {
+      allow read: if true;
+      allow create: if isValidId(messageId) && isValidSupport(incoming());
+      allow update: if isValidId(messageId) && isValidSupport(incoming());
+      allow delete: if false;
+    }
+  }
+}
